@@ -1,0 +1,29 @@
+Type 1 SCD: Each Customer has 1 row, if a customer updates his address, the old address is overwritten.
+
+CREATE TABLE Customer_Address_Type1 (
+    CustomerID INT PRIMARY KEY,
+    AddressLine1 VARCHAR(255) NOT NULL,
+    AddressLine2 VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(100),
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
+
+Type 2 SCD: Each address change creates a new row, when a new address is added, the old one is updated with an end date and marked IsCurrent is false.
+
+CREATE TABLE Customer_Address_Type2 (
+    AddressID INT PRIMARY KEY AUTO_INCREMENT,
+    CustomerID INT NOT NULL,
+    AddressLine1 VARCHAR(255) NOT NULL,
+    AddressLine2 VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    PostalCode VARCHAR(20),
+    Country VARCHAR(100),
+    StartDate DATE NOT NULL,
+    EndDate DATE,
+    IsCurrent BOOLEAN DEFAULT TRUE,
+    FOREIGN KEY (CustomerID) REFERENCES Customer(CustomerID)
+);
